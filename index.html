@@ -17,15 +17,18 @@
     }
     html {
       height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;       /* Скролл по всему документу */
-      overscroll-behavior-x: none;
+      overflow-x: hidden;            /* Чтобы контент не вылезал за края */
+      overflow-y: auto;              /* Вертикальный скролл */
+      overscroll-behavior-x: auto;   /* Восстанавливаем свайпы и bounce */
+      -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
     }
     body {
       min-height: 100%;
       margin: 0;
       padding: 0;
-      overflow-x: hidden;     /* Убираем горизонтальный скролл */
+      /* Убираем лишний горизонтальный скролл, сохраняя свайпы */
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
     @keyframes float { 0%,100%{transform: translateY(0);}50%{transform: translateY(-10px);} }
     .bg-shape {
