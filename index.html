@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <!-- Учёт выреза экрана на iOS -->
+  <!-- Адаптивность и учёт “чёлки” на iOS -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>The Heart Hub — Telegram Dating Bot</title>
   <!-- TailwindCSS -->
@@ -15,58 +15,112 @@
       padding-top: env(safe-area-inset-top);
       padding-bottom: env(safe-area-inset-bottom);
     }
-    html, body {
+    html {
+      height: 100%;
       overflow-x: hidden;
-      overflow-y: auto;
+      overflow-y: auto;       /* Скролл по всему документу */
       overscroll-behavior-x: none;
+    }
+    body {
+      min-height: 100%;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;     /* Убираем горизонтальный скролл */
     }
     @keyframes float { 0%,100%{transform: translateY(0);}50%{transform: translateY(-10px);} }
-    .bg-shape { position: absolute; width: 400px; height: 400px; background: radial-gradient(circle at center, rgba(255,0,80,0.3), transparent); filter: blur(100px); animation: float 6s ease-in-out infinite; will-change: transform; z-index: -1; }
-    .bg-shape:nth-child(1){ top:-100px; left:-100px; animation-delay:0s; }
+    .bg-shape {
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle at center, rgba(255,0,80,0.3), transparent);
+      filter: blur(100px);
+      animation: float 6s ease-in-out infinite;
+      z-index: -1;
+    }
+    .bg-shape:nth-child(1){ top:-100px; left:-100px; }
     .bg-shape:nth-child(2){ bottom:-120px; right:-80px; animation-delay:3s; }
-    .logo { font-size:1.25rem; font-weight:700; text-transform:uppercase; position:relative; }
-    .logo::before { content:attr(data-text); position:absolute; left:0; top:0; background:linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2), rgba(255,255,255,0.8)); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; opacity:0; transition:opacity .3s, background-position .5s; }
-    .logo:hover::before { opacity:1; animation: shine-hover .5s forwards; }
-    @keyframes shine-hover { from{background-position:-100% 0;}to{background-position:200% 0;} }
-    .underline-hover { position:relative; }
-    .underline-hover::after { content:""; position:absolute; left:0; bottom:-2px; width:0; height:2px; background:#ff0050; transition:width .3s; }
+    .logo {
+      font-size: 1.25rem; font-weight: 700; text-transform: uppercase; position: relative;
+    }
+    .logo::before {
+      content: attr(data-text);
+      position: absolute; left: 0; top: 0;
+      background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2), rgba(255,255,255,0.8));
+      background-size: 200% 100%; -webkit-background-clip: text; background-clip: text;
+      color: transparent; opacity: 0;
+      transition: opacity .3s, background-position .5s;
+    }
+    .logo:hover::before {
+      opacity: 1; animation: shine-hover .5s forwards;
+    }
+    @keyframes shine-hover { from{background-position:-100% 0;} to{background-position:200% 0;} }
+    .underline-hover { position: relative; }
+    .underline-hover::after {
+      content:""; position:absolute; left:0; bottom:-2px;
+      width:0; height:2px; background:#ff0050; transition:width .3s;
+    }
     .underline-hover:hover::after { width:100%; }
     @keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);} }
-    .btn-pulse:hover { animation:pulse 1s infinite; }
-    .feature-card { background: rgba(30,30,30,0.8); border-left:4px solid #ff0050; padding:1.5rem; border-radius:1rem; box-shadow:0 10px 30px rgba(0,0,0,0.7); transition:transform .3s; }
-    .feature-card:hover { transform:translateY(-8px); }
-    @media (max-width:640px){ .bg-shape { display: none; } }
+    .btn-pulse:hover { animation: pulse 1s infinite; }
+    .feature-card {
+      background: rgba(30,30,30,0.8);
+      border-left: 4px solid #ff0050;
+      padding: 1.5rem; border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      transition: transform .3s;
+    }
+    .feature-card:hover { transform: translateY(-8px); }
+    @media (max-width: 640px) {
+      .bg-shape { display: none; }
+    }
   </style>
 </head>
-<body class="relative bg-black text-white font-sans antialiased overflow-x-hidden overflow-y-auto">
+<body class="relative bg-black text-white font-sans antialiased">
+
+  <!-- Фоновые шейпы -->
   <div class="bg-shape"></div>
   <div class="bg-shape"></div>
 
   <!-- HEADER -->
-  <header class="container mx-auto px-4 sm:px-8 py-4 flex justify-between items-center sticky top-0 bg-black bg-opacity-80 backdrop-blur-md z-10">
-    <h1 class="logo" data-text="THE HEART HUB">THE HEART HUB</h1>
-    <nav>
-      <ul class="flex space-x-4 sm:space-x-6 text-sm sm:text-base uppercase">
-        <li><a href="#hero" class="underline-hover">Главная</a></li>
-        <li><a href="#features" class="underline-hover">Функции</a></li>
-        <li><a href="#problem" class="underline-hover">Проблемы</a></li>
-        <li><a href="#advantages" class="underline-hover">Преимущества</a></li>
-        <li><a href="#contact" class="underline-hover">Контакты</a></li>
-      </ul>
-    </nav>
+  <header class="sticky top-0 z-20 bg-black bg-opacity-80 backdrop-blur-md">
+    <div class="container mx-auto flex items-center justify-between px-4 sm:px-8 py-4">
+      <h1 class="logo" data-text="THE HEART HUB">THE HEART HUB</h1>
+
+      <!-- Гамбургер (на мобилках) -->
+      <button id="nav-toggle" class="sm:hidden p-2 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+
+      <!-- Меню -->
+      <nav>
+        <ul id="nav-menu"
+            class="hidden absolute top-full left-0 w-full bg-black bg-opacity-90 flex flex-col space-y-4 py-4 text-center uppercase
+                   sm:static sm:flex sm:flex-row sm:space-x-6 sm:bg-transparent sm:py-0">
+          <li><a href="#hero"       class="underline-hover block">Главная</a></li>
+          <li><a href="#features"   class="underline-hover block">Функции</a></li>
+          <li><a href="#problem"    class="underline-hover block">Проблемы</a></li>
+          <li><a href="#advantages" class="underline-hover block">Преимущества</a></li>
+          <li><a href="#contact"    class="underline-hover block">Контакты</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
   <!-- HERO -->
-  <section id="hero" class="container mx-auto flex flex-col justify-center items-start px-4 sm:px-8 py-20 sm:py-40" data-aos="fade-up" data-aos-duration="900">
-    <h2 class="text-3xl sm:text-4xl md:text-6xl font-extrabold uppercase leading-snug sm:leading-tight mb-6 break-words">
+  <section id="hero" class="container mx-auto px-4 sm:px-8 flex flex-col items-start py-20 sm:py-40"
+           data-aos="fade-up" data-aos-duration="900">
+    <h2 class="text-3xl sm:text-4xl md:text-6xl font-extrabold uppercase leading-snug mb-6 break-words">
       Интеллектуальный бот для знакомств в Telegram
     </h2>
-    <p class="text-base sm:text-lg sm:text-xl max-w-lg mb-8 break-words" data-aos="fade-in" data-aos-delay="300" data-aos-duration="900">
+    <p class="text-base sm:text-lg sm:text-xl max-w-lg mb-8 break-words"
+       data-aos="fade-in" data-aos-delay="300" data-aos-duration="900">
       Поиск анкет по фото или видео с человеческим лицом, по Telegram‑ID или юзернейму, а также гибкие фильтры поиска — бесплатно и без ограничений.
     </p>
-    <a href="https://t.me/Heart_hub_bot" target="_blank" class="btn-pulse inline-block px-6 sm:px-8 py-3 sm:py-4 border-2 border-red-500 uppercase tracking-wide hover:bg-red-500 hover:text-black transition-colors">
+    <a href="https://t.me/Heart_hub_bot" target="_blank"
+       class="btn-pulse inline-block px-6 sm:px-8 py-3 sm:py-4 border-2 border-red-500 uppercase tracking-wide hover:bg-red-500 hover:text-black transition-colors">
       Запустить бота
     </a>
   </section>
@@ -74,11 +128,16 @@
   <!-- PROBLEM -->
   <section id="problem" class="bg-gray-900" data-aos="fade-up" data-aos-duration="900">
     <div class="container mx-auto px-4 sm:px-8 py-16 sm:py-20 text-center">
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold uppercase mb-6 break-words" data-aos="fade-down" data-aos-duration="800">Проблемы</h2>
-      <p class="text-base sm:text-lg mb-4 break-words" data-aos="fade-in" data-aos-delay="100">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold uppercase mb-6 break-words"
+          data-aos="fade-down" data-aos-duration="800">
+        Проблемы
+      </h2>
+      <p class="text-base sm:text-lg mb-4 break-words"
+         data-aos="fade-in" data-aos-delay="100">
         Анкеты часто содержат фото без лиц, чёрный фон или неприемлемый контент, но наш бот автоматически решает эту проблему уже на этапе регистрации или редактирования анкеты.
       </p>
-      <p class="text-base sm:text-lg mb-4 break-words" data-aos="fade-in" data-aos-delay="200">
+      <p class="text-base sm:text-lg mb-4 break-words"
+         data-aos="fade-in" data-aos-delay="200">
         Во многих Telegram-ботах не сохраняется история переписок: после одного сообщения чат обрывается. В The Heart Hub все диалоги сохраняются, переписки анонимны, а ваш юзернейм раскрывается только при взаимной симпатии.
       </p>
     </div>
@@ -87,11 +146,16 @@
   <!-- ADVANTAGES -->
   <section id="advantages" data-aos="fade-up" data-aos-duration="900">
     <div class="container mx-auto px-4 sm:px-8 py-12 sm:py-16">
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold uppercase mb-6 inline-block border-b-4 border-red-500 break-words" data-aos="fade-down" data-aos-duration="800">Преимущества</h2>
-      <p class="text-base sm:text-lg mb-4 break-words" data-aos="fade-in" data-aos-delay="100">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold uppercase mb-6 inline-block border-b-4 border-red-500 break-words"
+          data-aos="fade-down" data-aos-duration="800">
+        Преимущества
+      </h2>
+      <p class="text-base sm:text-lg mb-4 break-words"
+         data-aos="fade-in" data-aos-delay="100">
         Поиск людей по фото, видео, по Telegram‑ID или юзернейму — достаточно отправить данные через команду <code>/find</code>.
       </p>
-      <p class="text-base sm:text-lg break-words" data-aos="fade-in" data-aos-delay="200">
+      <p class="text-base sm:text-lg break-words"
+         data-aos="fade-in" data-aos-delay="200">
         Используя команду <code>/recommend</code>, вы можете оценить внешность людей по пятибалльной шкале, а бот подберёт идеальные профили по вашим предпочтениям на базе машинного обучения.
       </p>
     </div>
@@ -100,9 +164,11 @@
   <!-- FEATURES -->
   <section id="features" data-aos="fade-up" data-aos-duration="900">
     <div class="container mx-auto px-4 sm:px-8 py-16 sm:py-20">
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold uppercase mb-10 inline-block border-b-4 border-red-500 break-words" data-aos="fade-down" data-aos-duration="800">Ключевые функции (все бесплатно)</h2>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold uppercase mb-10 inline-block border-b-4 border-red-500 break-words"
+          data-aos="fade-down" data-aos-duration="800">
+        Ключевые функции (все бесплатно)
+      </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-        <!-- Карточки функций -->
         <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
           <h3 class="font-semibold uppercase mb-2">/start</h3>
           <p>🌟 Регистрация и главное меню</p>
@@ -117,11 +183,11 @@
         </div>
         <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
           <h3 class="font-semibold uppercase mb-2">/recommend</h3>
-          <p>⭐️ Оценка внешности людей, чтобы в будущем мы могли подбирать для вас идеальные профили по вашим предпочтениям</p>
+          <p>⭐️ Оценка внешности людей, чтобы в будущем мы могли подбирать для вас идеальные профили</p>
         </div>
         <div class="feature-card" data-aos="zoom-in" data-aos-delay="500">
           <h3 class="font-semibold uppercase mb-2">/find</h3>
-          <p>🎥 Поиск анкет по имени/id/username или по видео/фото с лицом человека</p>
+          <p>🎥 Поиск по имени/ID/username или по фото/видео с лицом</p>
         </div>
         <div class="feature-card" data-aos="zoom-in" data-aos-delay="600">
           <h3 class="font-semibold uppercase mb-2">/compatibility_test</h3>
@@ -146,17 +212,30 @@
   <!-- CONTACT -->
   <section id="contact" class="bg-gray-900" data-aos="fade-up" data-aos-duration="900">
     <div class="container mx-auto px-4 sm:px-8 py-16 sm:py-20 text-center">
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold uppercase mb-6 break-words" data-aos="fade-down" data-aos-duration="800">Вы в одном шаге от запуска бота будущего</h2>
-      <a href="https://t.me/Heart_hub_bot" target="_blank" class="btn-pulse inline-block px-6 sm:px-10 py-3 sm:py-4 border-2 border-red-500 uppercase tracking-wide hover:bg-red-500 hover:text-black transition-colors" data-aos="zoom-in" data-aos-duration="600">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold uppercase mb-6 break-words"
+          data-aos="fade-down" data-aos-duration="800">
+        Вы в одном шаге от запуска бота будущего
+      </h2>
+      <a href="https://t.me/Heart_hub_bot" target="_blank"
+         class="btn-pulse inline-block px-6 sm:px-10 py-3 sm:py-4 border-2 border-red-500 uppercase tracking-wide hover:bg-red-500 hover:text-black transition-colors"
+         data-aos="zoom-in" data-aos-duration="600">
         Запустить бота
       </a>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="py-6 text-center text-sm text-gray-500">© 2025 The Heart Hub. Все права защищены.</footer>
+  <footer class="py-6 text-center text-sm text-gray-500">
+    © 2025 The Heart Hub. Все права защищены.
+  </footer>
 
+  <!-- Скрипты -->
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-  <script>AOS.init({once:true,offset:100,easing:'ease-out-quart'});</script>
+  <script>
+    AOS.init({ once: true, offset: 100, easing: 'ease-out-quart' });
+    document.getElementById('nav-toggle').addEventListener('click', () => {
+      document.getElementById('nav-menu').classList.toggle('hidden');
+    });
+  </script>
 </body>
 </html>
